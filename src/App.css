@@ -1,3 +1,13 @@
+/* Container */
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Play Button */
 .playPause {
   background-color: #1ed760; /* Spotify green */
   color: white;
@@ -10,11 +20,11 @@
   justify-content: center;
   transition: background-color 0.2s ease-in-out; /* Smoother hover effect */
 }
-
 .playPause:hover {
   background-color: #12b74a;
 }
 
+/* Sequencer */
 .sequencer-step {
   height: 45px;
   width: 25px;
@@ -24,3 +34,5 @@
 .sequencer-step.active {
   background-color: red;
 }
+
+/* BPM Slider */

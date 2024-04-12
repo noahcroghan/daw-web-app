@@ -34,14 +34,14 @@ function BPMSlider() {
   return (
     <>
       <input
-        className="BPMSlider"
+        className="slider"
         value={beatsPerMinute}
         onChange={(e) => setBeatsPerMinute(e.target.value)}
         type="range"
         min="1"
         max="200"
       />
-      <span>{beatsPerMinute}</span>
+      <span className="bpm-display">{beatsPerMinute} BPM</span>
     </>
   );
 }
@@ -93,9 +93,7 @@ export default function App() {
         </button>
         <BPMSlider />
       </div>
-      <div className="sequencer">
-        <Sequencer />
-      </div>
+      <div className="sequencer">{/* <Sequencer /> */}</div>
     </div>
   );
 }
