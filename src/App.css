@@ -1,0 +1,26 @@
+.playPause {
+  background-color: #1ed760; /* Spotify green */
+  color: white;
+  border: none;
+  border-radius: 50%; /* Full circle */
+  padding: 10px; /* Adjust padding based on SVG size */
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease-in-out; /* Smoother hover effect */
+}
+
+.playPause:hover {
+  background-color: #12b74a;
+}
+
+.sequencer-step {
+  height: 45px;
+  width: 25px;
+  margin: 1px;
+  background-color: gray;
+}
+.sequencer-step.active {
+  background-color: red;
+}
