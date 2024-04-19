@@ -1,20 +1,6 @@
-import React, { useEffect, useState } from "react";
-import * as Tone from "tone";
+import React from "react";
 import "./App.css";
-
-const makeSynths = (count) => {
-  const synths = [];
-
-  for (let i = 0; i < count; i++) {
-    let synth = new Tone.Synth({
-      oscillator: { type: "square8" },
-    }).toDestination();
-
-    synths.push(synth);
-  }
-
-  return synths;
-};
+import Sequencer from "./components/Sequencer";
 
 export default function App() {
   return (
@@ -23,7 +9,7 @@ export default function App() {
         <h1>Step Sequencer</h1>
       </header>
       <main>
-        <p>Main Area</p>
+        <Sequencer />
       </main>
     </div>
   );
