@@ -7,11 +7,11 @@ import "./App.css";
 const NUM_STEPS = 16; // this should be able to be changed via state
 
 // TODO: add type of synth param, update via state
-const makeSynths = (count) => {
+const makeSynths = (count, synthType) => {
   const synths = [];
   for (let i = 0; i < count; i++) {
     let synth = new Tone.Synth({
-      oscillator: { type: "square8" }, //set here
+      oscillator: { type: synthType + "8" }, // 8 makes better harmonics (sounds better)
     }).toDestination();
     synths.push(synth);
   }
@@ -35,8 +35,9 @@ const makeGrid = (notes) => {
 
 function Sequencer() {
   const notes = ["F4", "Eb4", "C4", "Bb3", "Ab3", "F3"]; // TODO: replace this later
+  const [synthType, setSynthType] = useState("sine");
   const [grid, setGrid] = useState(makeGrid(notes));
-  const [synths, setSynths] = useState(makeSynths(6));
+  const [synths, setSynths] = useState(makeSynths(6, synthType));
   const [isPlaying, setIsPlaying] = useState(false);
   const [isAudioCtxStarted, setIsAudioCtxStarted] = useState(false);
   // const [bpm, setBpm] = useState(100);
@@ -162,6 +163,19 @@ function Sequencer() {
               Tone.Transport.bpm.value = e.target.value;
             }}
           />
+          <label htmlFor="synth-type-input" id="synth-type-text">
+            Synth Type:
+          </label>
+          <select
+            id="synth-type-input"
+            name="synth-type-input"
+            value={synthType}
+            onChange={(e) => setSynthType(e.target.value)}
+          >
+            <option value="square">Square</option>
+            <option value="sawtooth">Sawtooth</option>
+            <option value="sine">Sine</option>
+          </select>
         </div>
       </div>
     </>

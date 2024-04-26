@@ -1,7 +1,8 @@
 :root {
-  --accent-color: #800000;
-  --background-color: #202020;
-  --foreground-color: #363636;
+  --accent-color: #ff4151;
+  --background-color: #00010a;
+  --foreground-color: #0f111a;
+  --note-color: #3b4252;
 }
 
 body {
@@ -31,19 +32,20 @@ body {
 }
 
 .note {
-  background-color: hsl(0, 0%, 91%);
-  border-color: hsl(0, 0%, 79%);
+  background-color: var(--note-color);
+  border: none;
   border-radius: 5px;
   height: 4em;
   width: 4em;
-  border-style: solid;
   border-width: 1px;
   margin: 2px;
   outline: none;
 }
 .note-is-active {
   background-color: var(--accent-color);
-  border-color: hsl(0, 0%, 0%);
+}
+.note:hover {
+  filter: brightness(90%);
 }
 
 .sequencer-row {
@@ -76,7 +78,7 @@ body {
   filter: brightness(90%);
 }
 
-#controls {
+/* #controls {
   background-color: var(--foreground-color);
   display: flex;
   flex-direction: row;
@@ -84,11 +86,7 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
-}
-
-#bpm-text {
-  margin-right: 10px;
-}
+} */
 
 #bpm-input {
   width: 3em;
@@ -98,9 +96,15 @@ body {
   display: flex;
 }
 
+label {
+  margin-right: 0.5em;
+  margin-left: 2em;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
-    --background-color: #d8d8d8;
-    --foreground-color: #bbbbbb;
+    --background-color: #e5e9f0;
+    --foreground-color: #4c566a;
+    --note-color: #a3be8c;
   }
 }
