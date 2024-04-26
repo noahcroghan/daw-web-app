@@ -34,10 +34,11 @@ function Sequencer() {
   const notes = ["F4", "Eb4", "C4", "Bb3", "Ab3", "F3"];
   const [grid, setGrid] = useState(makeGrid(notes));
   const [synths, setSynths] = useState(makeSynths(6));
-  const [beat, setBeat] = useState(0);
+  // const [beat, setBeat] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isStarted, setIsStarted] = useState(false);
 
+  let beat = 0;
   const configLoop = () => {
     const repeat = (time) => {
       grid.forEach((row, index) => {
@@ -48,8 +49,8 @@ function Sequencer() {
           synth.triggerAttackRelease(note.note, "8n", time);
         }
       });
-
-      setBeat((prevBeat) => (prevBeat + 1) % 8); // always 0; shouldn't be
+      beat = (beat + 1) % 8;
+      // setBeat((prevBeat) => (prevBeat + 1) % 8); // always 0; shouldn't be
 
       console.log(beat);
     };
