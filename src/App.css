@@ -1,7 +1,7 @@
 :root {
   --accent-color: #800000;
-  --background-color: #f5f5f5;
-  --foreground-color: #858585;
+  --background-color: #202020;
+  --foreground-color: #363636;
 }
 
 body {
@@ -9,6 +9,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: var(--background-color);
+  color: white;
 }
 
 .container {
@@ -54,8 +55,25 @@ body {
   display: flex;
 }
 
-.play-button {
-  margin: auto;
+#play-pause-button {
+  /* Basic button styles */
+  display: inline-block;
+  padding: 10px;
+  margin: 10px;
+  border: none;
+  border-radius: 50%; /* Ensures the button is circular */
+  cursor: pointer;
+  background-color: var(--accent-color); /* Use the accent color variable */
+}
+
+/* Styling the SVG inside the button */
+#play-pause-button img {
+  width: 2em; /* Set the width of the SVG */
+  height: 2em; /* Set the height of the SVG */
+}
+/* Hover effect */
+#play-pause-button:hover {
+  filter: brightness(90%);
 }
 
 #controls {
@@ -78,4 +96,11 @@ body {
 
 .right {
   display: flex;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background-color: #d8d8d8;
+    --foreground-color: #bbbbbb;
+  }
 }
