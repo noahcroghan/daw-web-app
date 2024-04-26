@@ -4,7 +4,9 @@ import playIcon from "/icons/play.svg";
 import pauseIcon from "/icons/pause.svg";
 import "./App.css";
 
-// TODO: add type param
+const NUM_STEPS = 16; // this should be able to be changed via state
+
+// TODO: add type of synth param, update via state
 const makeSynths = (count) => {
   const synths = [];
   for (let i = 0; i < count; i++) {
@@ -20,7 +22,7 @@ const makeGrid = (notes) => {
   const rows = [];
   for (const note of notes) {
     const row = [];
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < NUM_STEPS; i++) {
       row.push({
         note: note,
         isActive: false,
@@ -51,7 +53,7 @@ function Sequencer() {
           synth.triggerAttackRelease(note.note, "8n", time);
         }
       });
-      beat = (beat + 1) % 8;
+      beat = (beat + 1) % NUM_STEPS;
 
       console.log(beat);
     };
