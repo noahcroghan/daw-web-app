@@ -1,35 +1,53 @@
+:root {
+  --accent-color: #800000;
+  --background-color: #f5f5f5;
+  --foreground-color: #858585;
+}
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+}
+
 .sequencer {
-  border-radius: 5px;
-  width: fit-content;
+  /* border-radius: 5px; */
+  /* width: fit-content; */
   display: grid;
-  grid-template-rows: repeat(6, 1fr);
-  grid-template-columns: fit-content;
-  margin: auto;
+  /* grid-template-rows: repeat(6, 1fr); */
+  /* grid-template-columns: fit-content; */
+  /* margin: auto; */
 }
 
 .note {
+  background-color: hsl(0, 0%, 91%);
+  border-color: hsl(0, 0%, 79%);
   border-radius: 5px;
   height: 4em;
   width: 4em;
   border-style: solid;
   border-width: 1px;
-  border-color: lightgray;
   margin: 2px;
   outline: none;
+}
+.note-is-active {
+  background-color: var(--accent-color);
+  border-color: hsl(0, 0%, 0%);
 }
 
 .sequencer-row {
   display: inline-block;
   white-space: nowrap;
-}
-
-.note-is-active {
-  background-color: green;
-  border: 1px solid black;
-}
-
-.note-not-active {
-  background-color: solid grey;
 }
 
 .toggle-play {
@@ -38,4 +56,26 @@
 
 .play-button {
   margin: auto;
+}
+
+#controls {
+  background-color: var(--foreground-color);
+  display: flex;
+  flex-direction: row;
+  place-content: center;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+#bpm-text {
+  margin-right: 10px;
+}
+
+#bpm-input {
+  width: 3em;
+}
+
+.right {
+  display: flex;
 }
