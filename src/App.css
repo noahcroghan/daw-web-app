@@ -52,6 +52,9 @@ body {
   display: inline-block;
   white-space: nowrap;
 }
+.sequencer-row:nth-of-type(odd) {
+  filter: brightness(150%);
+}
 
 .toggle-play {
   display: flex;
@@ -78,7 +81,7 @@ body {
   filter: brightness(90%);
 }
 
-/* #controls {
+#controls {
   background-color: var(--foreground-color);
   display: flex;
   flex-direction: row;
@@ -86,19 +89,32 @@ body {
   align-items: center;
   justify-content: center;
   width: 100%;
-} */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
 
 #bpm-input {
   width: 3em;
 }
 
 .right {
-  display: flex;
 }
 
 label {
   margin-right: 0.5em;
   margin-left: 2em;
+}
+input {
+  background-color: var(--note-color);
+  border: none;
+  color: white;
+}
+select {
+  background-color: var(--note-color);
+  border: none;
+  color: white;
 }
 
 @media (prefers-color-scheme: light) {
