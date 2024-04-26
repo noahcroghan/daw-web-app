@@ -18,6 +18,16 @@ const makeSynths = (count, synthType) => {
   return synths;
 };
 
+const sampler = new Tone.Sampler({
+  urls: {
+    C4: "audio/Kick.ogg",
+    "C#4": "audio/Snare.ogg",
+    D4: "audio/Clap.ogg",
+    "D#4": "audio/HiHat.ogg",
+  },
+  release: 1,
+}).toDestination();
+
 const makeGrid = (notes) => {
   const rows = [];
   for (const note of notes) {
@@ -34,15 +44,76 @@ const makeGrid = (notes) => {
 };
 
 function Sequencer() {
-  const notes = ["F4", "Eb4", "C4", "Bb3", "Ab3", "F3"]; // TODO: replace this later
+  // const notes = ["C4", "C#4", "D4", "D#4"]; // TODO: replace this later
+  const notes = ["C4", "D4", "E4", "G4", "A4", "B4"];
   const [synthType, setSynthType] = useState("sine");
   const [grid, setGrid] = useState(makeGrid(notes));
-  const [synths, setSynths] = useState(makeSynths(6, synthType));
+  const [synths, setSynths] = useState(makeSynths(notes.length, synthType));
   const [isPlaying, setIsPlaying] = useState(false);
   const [isAudioCtxStarted, setIsAudioCtxStarted] = useState(false);
-  // const [bpm, setBpm] = useState(100);
+  const [bpm, setBpm] = useState();
 
   let beat = 0;
+
+  //() => {
+  // if (isPlaying) {
+  //   Tone.Transport.stop();
+  //   setIsPlaying(false);
+  // } else {
+  //   if (!Tone.Transport.state === "started") {
+  //     Tone.start();
+  //     Tone.getDestination().volume.rampTo(-10, 0.001);
+  //   }
+  //   configLoop();
+  //   Tone.Transport.start();
+  //   setIsPlaying(true);
+  // }
+  //   if (!isAudioCtxStarted) {
+  //     Tone.start();
+  //     Tone.getDestination().volume.rampTo(-10, 0.001);
+  //     configLoop();
+  //     setIsAudioCtxStarted(true);
+  //   }
+  //   // loop into using Tone.Transport.state
+  //   if (isPlaying) {
+  //     Tone.Transport.stop();
+  //     setIsPlaying(false);
+  //   } else {
+  //     Tone.Transport.start();
+  //     setIsPlaying(true);
+  //   }
+  // }}
+  const handlePlayPause = () => {
+    if (!isAudioCtxStarted) {
+      Tone.start();
+      Tone.getDestination().volume.rampTo(-10, 0.001);
+      configLoop();
+      setIsAudioCtxStarted(true);
+    }
+    if (isPlaying) {
+      Tone.Transport.stop();
+      setIsPlaying(false);
+    } else {
+      Tone.Transport.start();
+      setIsPlaying(true);
+    }
+  };
+
+  // Add Spacebar Event Listener on Component Load,
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === " ") {
+        e.preventDefault();
+        handlePlayPause();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isPlaying, isAudioCtxStarted]);
 
   const configLoop = () => {
     const repeat = (time) => {
@@ -51,6 +122,7 @@ function Sequencer() {
         let note = row[beat];
         if (note.isActive) {
           console.log(note.note);
+          // sampler.triggerAttackRelease(note.note, "8n", time);
           synth.triggerAttackRelease(note.note, "8n", time);
         }
       });
@@ -60,6 +132,7 @@ function Sequencer() {
     };
 
     Tone.Transport.bpm.value = 120;
+    setBpm(Tone.Transport.bpm.value);
     Tone.Transport.scheduleRepeat(repeat, "8n");
   };
 
@@ -74,7 +147,6 @@ function Sequencer() {
     setGrid(updatedGrid);
   };
 
-  // TODO: Add BPM control
   // TODO: Add metronome?
   // TODO: Add Stop Button
   // TODO: Allow for more synths/samplers
@@ -98,37 +170,7 @@ function Sequencer() {
         ))}
       </div>
       <div id="controls">
-        <button
-          id="play-pause-button"
-          onClick={() => {
-            // if (isPlaying) {
-            //   Tone.Transport.stop();
-            //   setIsPlaying(false);
-            // } else {
-            //   if (!Tone.Transport.state === "started") {
-            //     Tone.start();
-            //     Tone.getDestination().volume.rampTo(-10, 0.001);
-            //   }
-            //   configLoop();
-            //   Tone.Transport.start();
-            //   setIsPlaying(true);
-            // }
-            if (!isAudioCtxStarted) {
-              Tone.start();
-              Tone.getDestination().volume.rampTo(-10, 0.001);
-              configLoop();
-              setIsAudioCtxStarted(true);
-            }
-            // loop into using Tone.Transport.state
-            if (isPlaying) {
-              Tone.Transport.stop();
-              setIsPlaying(false);
-            } else {
-              Tone.Transport.start();
-              setIsPlaying(true);
-            }
-          }}
-        >
+        <button id="play-pause-button" onClick={handlePlayPause}>
           {isPlaying ? (
             <img src={pauseIcon} alt="Pause" />
           ) : (
@@ -148,7 +190,7 @@ function Sequencer() {
           </button>
         ) : null} */}
 
-        <div className="right">
+        <div id="right">
           <label htmlFor="bpm-input" id="bpm-text">
             BPM:
           </label>
@@ -156,11 +198,12 @@ function Sequencer() {
             id="bpm-input"
             name="bpm-input"
             type="number"
-            min="1"
-            max="300"
-            value={Tone.Transport.bpm.value}
+            min={1}
+            max={300}
+            value={bpm}
             onChange={(e) => {
-              Tone.Transport.bpm.value = e.target.value;
+              setBpm(e.target.value);
+              Tone.Transport.bpm = bpm;
             }}
           />
           <label htmlFor="synth-type-input" id="synth-type-text">
@@ -170,7 +213,10 @@ function Sequencer() {
             id="synth-type-input"
             name="synth-type-input"
             value={synthType}
-            onChange={(e) => setSynthType(e.target.value)}
+            onChange={(e) => {
+              setSynthType(e.target.value);
+              setSynths(makeSynths(notes.length, synthType));
+            }}
           >
             <option value="square">Square</option>
             <option value="sawtooth">Sawtooth</option>
