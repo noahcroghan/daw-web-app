@@ -1,8 +1,18 @@
-# React + Vite
+# Digital Audio Workstation (DAW) Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A sequencer built with React, and Tone.js.
 
-Currently, two official plugins are available:
+## Development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Setup by running:
+
+    git clone https://github.com/noahcroghan/daw-web-app.git #clone repo
+    cd daw-web-app                                           #change into repo directory
+    npm install                                              #install dependencies
+    npx vite                                                 #run development server
+
+## Credits
+
+- Color Scheme: [Material Ocean](https://github.com/material-ocean/Material-Ocean)
+- Library: [Tone.js](https://tonejs.github.io/)
+- Development Server: [Vite](https://vitejs.dev/)
