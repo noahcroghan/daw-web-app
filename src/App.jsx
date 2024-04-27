@@ -153,10 +153,11 @@ function Sequencer() {
   // TODO: Allow for more steps in the grid
   // TODO: Add current beat indicator
   // TODO: use Transport.position to make those buttons clickable (or just update beat)
+  // TODO: add left and right buttons which move the viewport on mobile, should be display: none; by default. use fixed positioning
 
   return (
     <>
-      <div className="sequencer">
+      <div id="sequencer">
         {grid.map((row, rowIndex) => (
           <div key={rowIndex} className="sequencer-row">
             {row.map((note, noteIndex) => (

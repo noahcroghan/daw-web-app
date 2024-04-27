@@ -22,7 +22,7 @@ body {
   height: 100vh;
 }
 
-.sequencer {
+#sequencer {
   /* border-radius: 5px; */
   /* width: fit-content; */
   display: grid;
@@ -36,7 +36,7 @@ body {
 .note {
   background-color: var(--note-color);
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
   /* height: 100%; */
   /* width: 25%; */
   height: 4em;
@@ -51,17 +51,16 @@ body {
 .note-is-active {
   background-color: var(--accent-color);
 }
+.note:hover {
+  filter: brightness(80%);
+}
+.note:nth-child(4n + 1):hover {
+  filter: brightness(130%);
+}
 
 .sequencer-row {
   display: inline-block;
   white-space: nowrap;
-}
-/* .sequencer-row:nth-of-type(odd) {
-  filter: brightness(150%);
-} */
-
-.toggle-play {
-  display: flex;
 }
 
 #play-pause-button {
@@ -77,11 +76,12 @@ body {
   width: 2em;
   height: 2em;
 }
-button:hover {
+#play-pause-button:hover {
   filter: brightness(80%);
 }
 
 #controls {
+  height: 3.5em;
   background-color: var(--foreground-color);
   display: flex;
   align-items: center;
@@ -106,27 +106,21 @@ input {
   background-color: var(--note-color);
   border: none;
   color: white;
+  border-radius: 0.3em;
 }
 select {
   background-color: var(--note-color);
   border: none;
   color: white;
+  border-radius: 0.3em;
 }
 
 /* Light Mode */
 @media (prefers-color-scheme: light) {
   :root {
-    --background-color: #fff;
-    --foreground-color: #4c566a;
+    --background-color: #ffffff;
     --note-color: #e5e9f0;
   }
-
-  /* .sequencer-row:nth-of-type(odd) {
-    filter: brightness(100%);
-  }
-  .sequencer-row:nth-of-type(even) {
-    filter: brightness(90%);
-  } */
 
   input {
     color: black;
@@ -137,21 +131,24 @@ select {
 }
 
 @media (max-width: 920px) {
-  .sequencer {
-    height: 100%;
+  #sequencer {
+    height: calc(100vh - 3.5em);
     width: 100%;
+    position: absolute;
+    top: 0;
   }
   .note {
     height: 100%;
     width: 25%;
     margin: 0;
-    border-radius: 0px;
+    border-radius: 0;
+    border: solid;
+    border-width: 0.1em;
   }
-  /* #controls {
-    flex-direction: column;
+  #controls {
+    justify-content: center;
   }
   #right {
     flex: none;
-    margin-right: 0;
-  } */
+  }
 }
