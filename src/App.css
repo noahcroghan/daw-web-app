@@ -51,6 +51,9 @@ body {
 .note-is-active {
   background-color: var(--accent-color);
 }
+.note-is-current-beat {
+  background-color: red;
+}
 .note:hover {
   filter: brightness(80%);
 }
@@ -147,6 +150,7 @@ select {
     border-radius: 0;
     border: solid;
     border-width: 0.1em;
+    border-color: var(--background-color);
   }
   #controls {
     justify-content: center;

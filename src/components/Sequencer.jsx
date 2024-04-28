@@ -4,37 +4,41 @@ import playIcon from "/icons/play.svg";
 import pauseIcon from "/icons/pause.svg";
 
 export function Sequencer() {
-  const notes = ["C4", "C#4", "D4", "D#4", "E4", "F4"];
-  const [synthType, setSynthType] = useState("sine");
+  const notes = ["F4", "E4", "D#4", "D4", "C#4", "C4"]; // make changeable
+  // const [synthType, setSynthType] = useState("sampler");
+  const synthType = useRef("sampler");
   const [isPlaying, setIsPlaying] = useState(false);
   const [isAudioCtxStarted, setIsAudioCtxStarted] = useState(false);
   const [numSteps, setNumSteps] = useState(16);
 
+  let sampler;
   // TODO: add type of synth param, update via state
   const makeSynths = (count, synthType) => {
-    const synths = [];
-    for (let i = 0; i < count; i++) {
-      let synth = new Tone.Synth({
-        // oscillator: { type: synthType + "8" }, // 8 makes better harmonics (sounds better)
-        oscillator: { type: synthType },
+    if (synthType === "sampler") {
+      sampler = new Tone.Sampler({
+        urls: {
+          C4: "audio/Kick.ogg",
+          "C#4": "audio/Snare.ogg",
+          D4: "audio/Clap.ogg",
+          "D#4": "audio/HiHat.ogg",
+          E4: "audio/OpenHat.ogg",
+          F4: "audio/Cowbell.ogg",
+        },
+        release: 1,
       }).toDestination();
-      synths.push(synth);
+    } else {
+      const synths = [];
+      for (let i = 0; i < count; i++) {
+        let synth = new Tone.Synth({
+          // oscillator: { type: synthType + "8" }, // 8 makes better harmonics (sounds better)
+          oscillator: { type: synthType },
+        }).toDestination();
+        synths.push(synth);
+      }
+      return synths;
     }
-    return synths;
   };
   const [synths, setSynths] = useState(makeSynths(notes.length, synthType));
-
-  const sampler = new Tone.Sampler({
-    urls: {
-      C4: "audio/Kick.ogg",
-      "C#4": "audio/Snare.ogg",
-      D4: "audio/Clap.ogg",
-      "D#4": "audio/HiHat.ogg",
-      E4: "audio/OpenHat.ogg",
-      F4: "audio/Cowbell.ogg",
-    },
-    release: 1,
-  }).toDestination();
 
   const makeGrid = (notes) => {
     const rows = [];
@@ -92,8 +96,8 @@ export function Sequencer() {
         let note = row[beat];
         if (note.isActive) {
           console.log(note.note);
-          sampler.triggerAttackRelease(note.note, "8n", time);
-          // synth.triggerAttackRelease(note.note, "8n", time);
+          // sampler.triggerAttackRelease(note.note, "8n", time);
+          synth.triggerAttackRelease(note.note, "8n", time);
         }
       });
       beat = (beat + 1) % numSteps;
@@ -137,6 +141,9 @@ export function Sequencer() {
             ))}
           </div>
         ))}
+        {Array.from({ length: numSteps }, (_, i) => i).map((index) => (
+          <div key={index} className={beat} />
+        ))}
       </div>
       <div id="controls">
         <button id="play-pause-button" onClick={handlePlayPause}>
@@ -175,20 +182,21 @@ export function Sequencer() {
             }}
           />
           <label htmlFor="synth-type-input" id="synth-type-text">
-            Synth Type:
+            Instrument Type:
           </label>
           <select
             id="synth-type-input"
             name="synth-type-input"
             value={synthType}
             onChange={(e) => {
-              setSynthType(e.target.value);
-              setSynths(makeSynths(notes.length, synthType));
+              // setSynthType(e.target.value);
+              // setSynths(makeSynths(notes.length, synthType));
             }}
           >
+            <option value="sampler">Drum Kit</option>
+            <option value="sine">Sine</option>
             <option value="square">Square</option>
             <option value="sawtooth">Sawtooth</option>
-            <option value="sine">Sine</option>
           </select>
         </div>
       </div>
