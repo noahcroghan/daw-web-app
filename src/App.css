@@ -71,6 +71,9 @@ body {
   border-radius: 50%;
   cursor: pointer;
   background-color: var(--accent-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #play-pause-button img {
   width: 2em;
