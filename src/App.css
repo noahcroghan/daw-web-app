@@ -22,7 +22,7 @@ body {
   height: 100vh;
 }
 
-#sequencer {
+.sequencer {
   /* border-radius: 5px; */
   /* width: fit-content; */
   display: grid;
@@ -137,7 +137,7 @@ select {
 }
 
 @media (max-width: 920px) {
-  #sequencer {
+  .sequencer {
     height: calc(100vh - 3.5em);
     width: 100%;
     position: absolute;
