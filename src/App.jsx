@@ -4,6 +4,18 @@ import React, { useState, useEffect, useRef } from "react";
 import playIcon from "/icons/play.svg";
 import pauseIcon from "/icons/pause.svg";
 
+const sampler = new Tone.Sampler({
+  urls: {
+    C4: "audio/Kick.ogg",
+    "C#4": "audio/Snare.ogg",
+    D4: "audio/Clap.ogg",
+    "D#4": "audio/HiHat.ogg",
+    E4: "audio/OpenHat.ogg",
+    F4: "audio/Cowbell.ogg",
+  },
+  release: 1,
+}).toDestination();
+
 function Sequencer() {
   const notes = ["F4", "E4", "D#4", "D4", "C#4", "C4"]; // make changeable
   // const [synthType, setSynthType] = useState("sampler");
@@ -12,34 +24,34 @@ function Sequencer() {
   const [isAudioCtxStarted, setIsAudioCtxStarted] = useState(false);
   const [numSteps, setNumSteps] = useState(16);
 
-  let sampler;
-  // TODO: add type of synth param, update via state
-  const makeSynths = (count, synthType) => {
-    if (synthType === "sampler") {
-      sampler = new Tone.Sampler({
-        urls: {
-          C4: "audio/Kick.ogg",
-          "C#4": "audio/Snare.ogg",
-          D4: "audio/Clap.ogg",
-          "D#4": "audio/HiHat.ogg",
-          E4: "audio/OpenHat.ogg",
-          F4: "audio/Cowbell.ogg",
-        },
-        release: 1,
-      }).toDestination();
-    } else {
-      const synths = [];
-      for (let i = 0; i < count; i++) {
-        let synth = new Tone.Synth({
-          // oscillator: { type: synthType + "8" }, // 8 makes better harmonics (sounds better)
-          oscillator: { type: synthType },
-        }).toDestination();
-        synths.push(synth);
-      }
-      return synths;
-    }
-  };
-  const [synths, setSynths] = useState(makeSynths(notes.length, synthType));
+  // let sampler;
+  // // TODO: add type of synth param, update via state
+  // const makeSynths = (count, synthType) => {
+  //   if (synthType === "sampler") {
+  //     sampler = new Tone.Sampler({
+  //       urls: {
+  //         C4: "audio/Kick.ogg",
+  //         "C#4": "audio/Snare.ogg",
+  //         D4: "audio/Clap.ogg",
+  //         "D#4": "audio/HiHat.ogg",
+  //         E4: "audio/OpenHat.ogg",
+  //         F4: "audio/Cowbell.ogg",
+  //       },
+  //       release: 1,
+  //     }).toDestination();
+  //   } else {
+  //     const synths = [];
+  //     for (let i = 0; i < count; i++) {
+  //       let synth = new Tone.Synth({
+  //         // oscillator: { type: synthType + "8" }, // 8 makes better harmonics (sounds better)
+  //         oscillator: { type: synthType },
+  //       }).toDestination();
+  //       synths.push(synth);
+  //     }
+  //     return synths;
+  //   }
+  // };
+  // const [synths, setSynths] = useState(makeSynths(notes.length, synthType));
 
   const makeGrid = (notes) => {
     const rows = [];
@@ -93,7 +105,7 @@ function Sequencer() {
   const configLoop = () => {
     const repeat = (time) => {
       grid.forEach((row, index) => {
-        let synth = synths[index];
+        // let synth = synths[index];
         let note = row[beat];
         if (note.isActive) {
           console.log(note.note);
