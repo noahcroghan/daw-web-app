@@ -16,3 +16,4 @@ Setup by running:
 - Color Scheme: [Material Ocean](https://github.com/material-ocean/Material-Ocean)
 - Library: [Tone.js](https://tonejs.github.io/)
 - Development Server: [Vite](https://vitejs.dev/)
+- Icons: [Bootstrap Icons](https://icons.getbootstrap.com/)
