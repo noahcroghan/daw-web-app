@@ -154,7 +154,54 @@ function Sequencer() {
   // TODO: Add current beat indicator
   // TODO: use Transport.position to make those buttons clickable (or just update beat)
   // TODO: add left and right buttons which move the viewport on mobile, should be display: none; by default. use fixed positioning
+  const saveSequence = () => {
+    const sequenceData = JSON.stringify(grid);
+    const blob = new Blob([sequenceData], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
 
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "sequence.json";
+    link.click();
+
+    URL.revokeObjectURL(url);
+    console.log("Sequence saved!");
+  };
+  const loadSequence = (event) => {
+    const file = event.target.files[0];
+
+    if (!file) {
+      console.error("No file selected.");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      try {
+        const loadedGrid = JSON.parse(e.target.result);
+
+        // Reset the sequence
+        clearSequence();
+
+        // Update the grid state
+        setGrid(loadedGrid);
+
+        console.log("Sequence loaded!");
+      } catch (error) {
+        console.error("Error loading sequence:", error);
+      }
+    };
+
+    reader.readAsText(file);
+  };
+
+  const clearSequence = () => {
+    // Clear the current sequence data
+    setGrid([]);
+
+    // Add any additional reset logic here
+  };
   return (
     <>
       <div id="sequencer">
@@ -179,17 +226,20 @@ function Sequencer() {
           )}
         </button>
         {/* {isPlaying ? (
-          <button
-            id="stop-button"
-            onClick={() => {
-              setIsPlaying(false);
-              Tone.Transport.stop();
-              beat = 0;
-            }}
-          >
-            Stop
-          </button>
-        ) : null} */}
+              <button
+                id="stop-button"
+                onClick={() => {
+                  setIsPlaying(false);
+                  Tone.Transport.stop();
+                  beat = 0;
+                }}
+              >
+                Stop
+              </button>
+            ) : null} */}
+        <button onClick={saveSequence}>Save Sequence</button>
+        {/* <button onClick={loadSequence}>Load Sequence</button> */}
+        <input type="file" id="load-sequence" onChange={loadSequence} />
 
         <div id="right">
           <label htmlFor="bpm-input" id="bpm-text">
