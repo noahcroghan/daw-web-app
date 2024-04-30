@@ -70,7 +70,7 @@ function Sequencer() {
   const [grid, setGrid] = useState(makeGrid(notes));
   let beat = 0;
 
-  const silentAudio = new Audio("/audio/silent.mp3");
+  const silentAudio = new Audio("audio/silent.mp3");
   const handlePlayPause = () => {
     if (!isAudioCtxStarted) {
       Tone.start();
