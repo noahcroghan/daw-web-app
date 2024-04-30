@@ -70,12 +70,14 @@ function Sequencer() {
   const [grid, setGrid] = useState(makeGrid(notes));
   let beat = 0;
 
-  const silentAudio = new Audio("audio/silent.mp3");
+  // const silentAudio = new Audio("audio/silent.mp3");
   const handlePlayPause = () => {
     if (!isAudioCtxStarted) {
       Tone.start();
       // sampler.context.resume(); // safari fix - doesn't work
-      silentAudio.play();
+      // silentAudio.play();
+      const audio = document.querySelector("audio");
+      audio.play();
       Tone.getDestination().volume.rampTo(-10, 0.001);
       configLoop();
       setIsAudioCtxStarted(true);
