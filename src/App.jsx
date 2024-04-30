@@ -73,6 +73,7 @@ function Sequencer() {
   const handlePlayPause = () => {
     if (!isAudioCtxStarted) {
       Tone.start();
+      sampler.context.resume(); // ios/safari fix
       Tone.getDestination().volume.rampTo(-10, 0.001);
       configLoop();
       setIsAudioCtxStarted(true);
